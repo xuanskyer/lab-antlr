@@ -8,8 +8,14 @@ import (
 )
 
 func main() {
-	str := "1+2 * 3 + 4"
+	str := "( 1 + 2 ) * 3 + 4"
 	result := calc(str)
+	fmt.Printf("%s = %d\n", str, result)
+	str = "3 + ( 1 + 2 ) * 3 + 4"
+	result = calc(str)
+	fmt.Printf("%s = %d\n", str, result)
+	str = "(3 + ( 1 + 2 ) * 3)/2 + 4"
+	result = calc(str)
 	fmt.Printf("%s = %d\n", str, result)
 }
 
@@ -21,7 +27,6 @@ func calc(input string) int {
 	// Create the Lexer
 	lexer := parser.NewCalcLexer(is)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
-
 	// Create the Parser
 	p := parser.NewCalcParser(stream)
 

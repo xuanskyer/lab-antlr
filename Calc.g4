@@ -7,6 +7,8 @@ DIV: '/';
 ADD: '+';
 SUB: '-';
 NUMBER: [0-9]+;
+LEFT: '(';
+RIGHT: ')';
 WHITESPACE: [ \r\n\t]+ -> skip;
 
 // Rules
@@ -16,4 +18,5 @@ expression
    : expression op=('*'|'/') expression # MulDiv
    | expression op=('+'|'-') expression # AddSub
    | NUMBER                             # Number
+   | '(' expression ')'                 # Parenthesis
    ;
