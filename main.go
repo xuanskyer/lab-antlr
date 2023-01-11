@@ -11,7 +11,13 @@ func main() {
 	str := "( 1 + 2 ) * 3 + 4"
 	result := calc(str)
 	fmt.Printf("%s = %d\n", str, result)
-	str = "3 + ( 1 + 2 ) * 3 + 4"
+	str = "1 + 2 * 3 + 4"
+	result = calc(str)
+	fmt.Printf("%s = %d\n", str, result)
+	str = "3 * (( 1 + 2 ) * 3 + 4)"
+	result = calc(str)
+	fmt.Printf("%s = %d\n", str, result)
+	str = "(3 + ( 1 + 2 ) * 3)/2 + 4"
 	result = calc(str)
 	fmt.Printf("%s = %d\n", str, result)
 	str = "(3 + ( 1 + 2 ) * 3)/2 + 4"
@@ -63,7 +69,7 @@ func (l *calcListener) pop() int {
 
 func (l *calcListener) ExitMulDiv(c *parser.MulDivContext) {
 	right, left := l.pop(), l.pop()
-
+	fmt.Printf("ExitMulDiv: left: %d, right: %d\n", left, right)
 	switch c.GetOp().GetTokenType() {
 	case parser.CalcParserMUL:
 		l.push(left * right)
@@ -75,7 +81,9 @@ func (l *calcListener) ExitMulDiv(c *parser.MulDivContext) {
 }
 
 func (l *calcListener) ExitAddSub(c *parser.AddSubContext) {
+
 	right, left := l.pop(), l.pop()
+	fmt.Printf("ExitAddSub, left: %d, right: %d\n", left, right)
 
 	switch c.GetOp().GetTokenType() {
 	case parser.CalcParserADD:
@@ -88,7 +96,9 @@ func (l *calcListener) ExitAddSub(c *parser.AddSubContext) {
 }
 
 func (l *calcListener) ExitNumber(c *parser.NumberContext) {
+
 	i, err := strconv.Atoi(c.GetText())
+	fmt.Printf("ExitNumber: %d\n", i)
 	if err != nil {
 		panic(err.Error())
 	}
